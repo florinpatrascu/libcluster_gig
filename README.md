@@ -1,4 +1,4 @@
-# A libcluster strategy for Google Instance Groups
+# A simple libcluster strategy for Google Instance Groups
 
 ## Installation
 
@@ -57,6 +57,37 @@ defmodule MyApp.Application do
   end
 end
 ```
+
+But you can also use a `libcluster` specific configuration. For example:
+
+```elixir
+config :libcluster,
+  topologies: [
+    myapp_release_name: [
+      strategy: Cluster.Strategy.GoogleInstanceGroups,
+      config: [
+        project: "4thehorde",
+        zone: "kekw",
+        instance_group: "omegalul",
+        adapter: Cluster.Strategy.Adapter.InstanceGroups
+      ]
+    ]
+  ]
+
+```
+
+and then add the following to one of your app's supervision trees, as a child
+
+```elixir
+  {Cluster.Supervisor,
+    [Application.get_env(:libcluster, :topologies), [name: MyApp.ClusterSupervisor]]}
+
+```
+
+That's it™
+
+:)
+
 
 ### License
 

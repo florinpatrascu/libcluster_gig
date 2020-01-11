@@ -57,7 +57,7 @@ defmodule LibclusterGig.MixProject do
 
   defp package do
     [
-      files: ["lib", "mix.exs", "LICENSE", "README.md"],
+      files: ["lib", "mix.exs", "LICENSE", "README.md", "CHANGELOG.md"],
       maintainers: ["Florin T.PATRASCU"],
       licenses: ["Apache 2.0"],
       links: %{"GitHub" => source_url()}
