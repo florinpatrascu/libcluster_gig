@@ -34,7 +34,7 @@ defmodule Cluster.Strategy.Adapter.InstanceGroups do
        ) do
     conn = get_access_token() |> Connection.new()
 
-    with {:ok, %InstanceGroupsListInstances{items: items}} <-
+    with {:ok, %InstanceGroupsListInstances{items: items}} when not is_nil(items) <-
            conn
            |> Api.InstanceGroups.compute_instance_groups_list_instances(
              project,
