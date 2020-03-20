@@ -1,7 +1,7 @@
 defmodule LibclusterGig.MixProject do
   use Mix.Project
 
-  @version "0.1.1"
+  @version "0.1.2"
   def project do
     [
       app: :libcluster_gig,
@@ -35,7 +35,7 @@ defmodule LibclusterGig.MixProject do
       {:libcluster, "~> 3.1"},
       # Using the required Google API support from: https://github.com/googleapis/elixir-google-api
       # - Compute: https://hexdocs.pm/google_api_compute/api-reference.html
-      {:google_api_compute, "~> 0.9"},
+      {:google_api_compute, "~> 0.13"},
       # - authentication
       {:goth, "~> 1.2"},
       # and for internal use, i.e. development
