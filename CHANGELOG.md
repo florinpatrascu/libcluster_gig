@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+- elixir >= 1.10
+- update deps
+- trim any spaces around the group name
+
 ## 0.1.2
 
 - update deps: google_api_compute

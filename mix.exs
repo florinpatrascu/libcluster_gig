@@ -1,12 +1,12 @@
 defmodule LibclusterGig.MixProject do
   use Mix.Project
 
-  @version "0.1.2"
+  @version "0.2.0"
   def project do
     [
       app: :libcluster_gig,
       version: @version,
-      elixir: "~> 1.9",
+      elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
@@ -32,15 +32,16 @@ defmodule LibclusterGig.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:libcluster, "~> 3.1"},
+      {:libcluster, "~> 3.2"},
       # Using the required Google API support from: https://github.com/googleapis/elixir-google-api
       # - Compute: https://hexdocs.pm/google_api_compute/api-reference.html
-      {:google_api_compute, "~> 0.13"},
+      {:google_api_compute, "~> 0.27"},
       # - authentication
       {:goth, "~> 1.2"},
       # and for internal use, i.e. development
       {:mix_test_watch, "~> 1.0.2", only: [:dev, :test]},
-      {:dialyxir, "1.0.0-rc.7", only: :dev},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:credo, "~> 1.5.0-rc.4", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end

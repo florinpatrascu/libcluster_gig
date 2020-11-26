@@ -33,15 +33,12 @@ defmodule Cluster.Strategy.GoogleInstanceGroups do
   defp load(%State{config: config, topology: topology} = state) do
     adapter = config[:adapter]
 
-    with {:ok, nodes} <- adapter.get_nodes(topology, config) do
-      Cluster.Strategy.connect_nodes(
-        state.topology,
-        state.connect,
-        state.list_nodes,
-        nodes
-      )
-    else
-      e -> Logger.error(inspect(e))
+    case adapter.get_nodes(topology, config) do
+      {:ok, nodes} ->
+        Cluster.Strategy.connect_nodes(state.topology, state.connect, state.list_nodes, nodes)
+
+      e ->
+        Logger.error(inspect(e))
     end
 
     Process.send_after(self(), :load, polling_interval(state))

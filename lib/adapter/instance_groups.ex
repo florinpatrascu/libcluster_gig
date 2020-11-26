@@ -34,28 +34,34 @@ defmodule Cluster.Strategy.Adapter.InstanceGroups do
        ) do
     conn = get_access_token() |> Connection.new()
 
-    with {:ok, %InstanceGroupsListInstances{items: items}} when not is_nil(items) <-
-           conn
-           |> Api.InstanceGroups.compute_instance_groups_list_instances(
-             project,
-             zone,
-             instance_group
-           ) do
-      nodes =
-        items
-        |> Enum.filter(fn
-          %InstanceWithNamedPorts{status: "RUNNING"} -> true
-          _ -> false
-        end)
-        |> Enum.map(fn %InstanceWithNamedPorts{instance: instance} ->
-          %{"instance_name" => instance_name} =
-            Regex.named_captures(~r/.*\/(?<instance_name>.*)$/, instance)
+    instances =
+      Api.InstanceGroups.compute_instance_groups_list_instances(
+        conn,
+        project,
+        zone,
+        String.trim(instance_group)
+      )
 
-          :"#{release_name}@#{instance_name}"
-        end)
+    case instances do
+      {:ok, %InstanceGroupsListInstances{items: items}} when is_list(items) ->
+        nodes =
+          items
+          |> Enum.filter(fn
+            %InstanceWithNamedPorts{status: "RUNNING"} -> true
+            _ -> false
+          end)
+          |> Enum.map(fn %InstanceWithNamedPorts{instance: instance} ->
+            %{"instance_name" => instance_name} =
+              Regex.named_captures(~r/.*\/(?<instance_name>.*)$/, instance)
 
-      {:ok, nodes}
-    else
+            :"#{release_name}@#{instance_name}"
+          end)
+
+        {:ok, nodes}
+
+      {:ok, %InstanceGroupsListInstances{}} ->
+        {:ok, []}
+
       e ->
         Logger.error(inspect(e))
         {:error, e}
@@ -63,9 +69,7 @@ defmodule Cluster.Strategy.Adapter.InstanceGroups do
   end
 
   defp get_access_token() do
-    {:ok, response} =
-      "https://www.googleapis.com/auth/cloud-platform"
-      |> Goth.Token.for_scope()
+    {:ok, response} = Goth.Token.for_scope("https://www.googleapis.com/auth/cloud-platform")
 
     response.token
   end
