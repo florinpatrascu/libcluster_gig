@@ -8,7 +8,7 @@ by adding `libcluster_gig` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:libcluster_gig, "~> 0.2.0"}
+    {:libcluster_gig, "~> 0.3.0"}
   ]
 end
 ```
@@ -89,7 +89,7 @@ That's it™
 
 ### License
 
-Copyright 2020 Florin T.Patrascu
+Copyright 2020-2021 Florin T.Patrascu
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

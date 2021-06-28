@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- elixir >= 1.12
+- erlang >= 24
+- update deps
+
 ## 0.2.0
 
 - elixir >= 1.10
