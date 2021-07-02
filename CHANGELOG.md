@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- relax the Elixir version, requiring elixir >= 1.11
+- deps update
+
 ## 0.3.0
 
 - elixir >= 1.12
